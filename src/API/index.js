@@ -25,6 +25,22 @@ const fetchSinglePlayer = async (playerId) => {
   }
 };
 
+const addPlayer = async (newPlayerObject) => {
+  try {
+    const response = await fetch(`${API_URL}/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newPlayerObject),
+    });
+    return response;
+  } catch (error) {
+    console.error('Error Adding Player!', error);
+    throw error;
+  }
+};
+
 const deletePlayer = async (playerId) => {
   try {
     const response = await fetch(`${API_URL}/${playerId}`, {
@@ -33,11 +49,11 @@ const deletePlayer = async (playerId) => {
     if (!response.ok) {
       throw new Error('Failed to delete the player');
     }
-    return { success: true }; // Return a success object or the response body as needed
+    return { success: true };
   } catch (error) {
     console.error(`Failed to delete player #${playerId}:`, error);
-    return { success: false, error: error }; // Return an error object for further handling
+    return { success: false, error: error };
   }
 };
 
-export { fetchAllPlayers, fetchSinglePlayer, deletePlayer };
+export { fetchAllPlayers, fetchSinglePlayer, deletePlayer, addPlayer };
